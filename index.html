@@ -22,10 +22,39 @@
 			canvas {
 				display: block;
 			}
+			#loading-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(30, 30, 30, 0.8);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 1000;
+			}
+			#loading-spinner {
+				width: 64px;
+				height: 64px;
+				animation: spin 1s linear infinite;
+				filter: invert(1);
+			}
+			@keyframes spin {
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(360deg);
+				}
+			}
 		</style>
 	</head>
 	<body>
 		<div id="game-container"></div>
+		<div id="loading-overlay">
+			<img id="loading-spinner" src="/loader-circle.svg" alt="Loading..." />
+		</div>
 		<script type="module" src="/src/app.ts"></script>
 	</body>
 </html>

@@ -1,28 +1,57 @@
+import { ResizeSensor } from 'css-element-queries'
 import { Application, Assets, GL_INTERNAL_FORMAT, loadKTX, Sprite, Text, Texture, WebGLRenderer } from 'pixi.js'
 
 class Game {
 	private readonly BG_COLOR = 0x1e1e1e
+	private readonly WIDTH = 800
+	private readonly HEIGHT = 600
 	private app: Application
 	private background: Sprite | undefined
 	private sprite: Sprite | undefined
 	private text: Text | undefined
+	private loadingOverlay: HTMLElement | undefined
 
 	async init(): Promise<void> {
 		this.app = new Application()
 
 		await this.app.init({
 			background: this.BG_COLOR,
-			width: 800,
-			height: 600,
+			width: this.WIDTH,
+			height: this.HEIGHT,
 			hello: true,
 		})
 
 		const canvasContainer = document.getElementById('game-container') as HTMLDivElement
 		canvasContainer.appendChild(this.app.canvas)
 
+		this.setupResizing()
+
+		this.loadingOverlay = document.getElementById('loading-overlay') as HTMLElement
+
 		if (this.app.renderer instanceof WebGLRenderer) {
 			this.logSupportedWebglExtensions(this.app.renderer.gl)
 		}
+	}
+
+	private setupResizing(): void {
+		const resize = (size: { width: number; height: number }) => {
+			const w = Math.min(size.width, this.WIDTH)
+			const h = Math.min(size.height, this.HEIGHT)
+
+			const scale = Math.min(w / this.WIDTH, h / this.HEIGHT)
+
+			const newWidth = Math.round(this.WIDTH * scale)
+			const newHeight = Math.round(this.HEIGHT * scale)
+
+			this.app.canvas.style.width = `${newWidth}px`
+			this.app.canvas.style.height = `${newHeight}px`
+		}
+
+		const canvasContainer = document.getElementById('game-container') as HTMLDivElement
+
+		new ResizeSensor(canvasContainer, (size) => resize(size))
+
+		resize(canvasContainer.getBoundingClientRect())
 	}
 
 	private logSupportedWebglExtensions(gl: WebGLRenderingContext): void {
@@ -57,20 +86,31 @@ class Game {
 	public async start(): Promise<void> {
 		Assets.loader.parsers.push(loadKTX as any)
 
-		this.addBackground()
-		this.addAstcTexture()
-		this.addHintText()
+		try {
+			const texture = await Assets.load('textures/robot.astc_4x4.ktx')
 
-		window.addEventListener('keydown', (event: KeyboardEvent) => {
-			if (event.key === 'w') {
-				this.loseWebglContext()
+			// Remove loading overlay after successful load
+			this.loadingOverlay?.remove()
+
+			this.addBackground()
+			this.addAstcTexture(texture)
+			this.addHintText()
+
+			window.addEventListener('keydown', (event: KeyboardEvent) => {
+				if (event.key === 'w') {
+					this.loseWebglContext()
+				}
+			})
+
+			this.app.stage.interactive = true
+			this.app.stage.on('pointerdown', () => this.loseWebglContext())
+		} catch (error) {
+			console.error('Failed to load texture:', error)
+			if (this.loadingOverlay) {
+				this.loadingOverlay.innerHTML =
+					'<div style="color: white; font-family: monospace;">Error loading texture</div>'
 			}
-		})
-
-		this.app.stage.interactive = true
-		this.app.stage.on('click', () => {
-			this.loseWebglContext()
-		})
+		}
 	}
 
 	private addBackground(): void {
@@ -81,9 +121,7 @@ class Game {
 		this.app.stage.addChild(this.background)
 	}
 
-	private async addAstcTexture(): Promise<void> {
-		const texture = await Assets.load('textures/robot.astc_4x4.ktx')
-
+	private async addAstcTexture(texture: Texture): Promise<void> {
 		this.sprite = new Sprite(texture)
 		this.sprite.anchor.set(0.5)
 		this.sprite.x = this.app.screen.width / 2
