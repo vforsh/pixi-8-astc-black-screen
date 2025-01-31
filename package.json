@@ -1,0 +1,40 @@
+{
+	"name": "pixijs-astc-black-screen-issue",
+	"version": "1.0.0",
+	"description": "PixiJS - WebGL Context Restoration Issue",
+	"main": "src/app.ts",
+	"private": true,
+	"scripts": {
+		"start": "vite --host",
+		"build": "vite build",
+		"preview": "vite preview",
+		"format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+		"typecheck-dev": "tsc --noEmit --watch --pretty false"
+	},
+	"author": "Stark Games",
+	"dependencies": {
+		"@pixi/devtools": "^2.0.1",
+		"@types/lodash-es": "^4.17.12",
+		"@types/node": "20.13",
+		"@types/path-browserify": "^1.0.3",
+		"@types/ua-parser-js": "^0.7.39",
+		"@vitejs/plugin-basic-ssl": "^1.2.0",
+		"css-element-queries": "^1.2.3",
+		"fzf": "^0.5.2",
+		"lodash-es": "^4.17.21",
+		"open": "^10.1.0",
+		"path-browserify": "^1.0.1",
+		"pixi.js": "^8.7.3",
+		"prettier": "^3.4.1",
+		"prettier-plugin-organize-imports": "^4.1.0",
+		"pretty-bytes": "^6.1.1",
+		"typescript": "^5.7.2",
+		"ua-parser-js": "^2.0.0",
+		"vite": "^6.0.2",
+		"vite-plugin-compression": "^0.5.1",
+		"zod": "^3.23.8"
+	},
+	"engines": {
+		"node": "~20.13.1"
+	}
+}
