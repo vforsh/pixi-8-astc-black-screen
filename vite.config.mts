@@ -8,6 +8,7 @@ export default defineConfig({
 		outDir: 'dist',
 		assetsDir: 'assets',
 		copyPublicDir: true,
+		target: 'esnext',
 	},
 	publicDir: 'assets',
 	plugins: [],

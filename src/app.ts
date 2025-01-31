@@ -125,5 +125,10 @@ class Game {
 }
 
 const game = new Game()
-await game.init()
-await game.start()
+
+async function startGame() {
+	await game.init()
+	await game.start()
+}
+
+startGame().catch(console.error)
