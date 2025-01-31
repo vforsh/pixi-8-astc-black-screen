@@ -22,10 +22,39 @@
 			canvas {
 				display: block;
 			}
+			#loading-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(30, 30, 30, 0.8);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 1000;
+			}
+			#loading-spinner {
+				width: 64px;
+				height: 64px;
+				animation: spin 1s linear infinite;
+				filter: invert(1);
+			}
+			@keyframes spin {
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(360deg);
+				}
+			}
 		</style>
-		<script type="module" crossorigin src="/pixi-8-astc-black-screen/assets/index-CI9zjnFn.js"></script>
+		<script type="module" crossorigin src="/pixi-8-astc-black-screen/assets/index-DU6qvDlj.js"></script>
 	</head>
 	<body>
 		<div id="game-container"></div>
+		<div id="loading-overlay">
+			<img id="loading-spinner" src="/pixi-8-astc-black-screen/loader-circle.svg" alt="Loading..." />
+		</div>
 	</body>
 </html>
