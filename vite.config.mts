@@ -11,4 +11,5 @@ export default defineConfig({
 	},
 	publicDir: 'assets',
 	plugins: [],
+	base: '/pixi-8-astc-black-screen',
 })

@@ -9,7 +9,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
-		"typecheck-dev": "tsc --noEmit --watch --pretty false"
+		"typecheck-dev": "tsc --noEmit --watch --pretty false",
+		"deploy": "gh-pages -d dist"
 	},
 	"author": "Stark Games",
 	"dependencies": {
@@ -36,5 +37,8 @@
 	},
 	"engines": {
 		"node": "~20.13.1"
+	},
+	"devDependencies": {
+		"gh-pages": "^6.1.1"
 	}
 }
