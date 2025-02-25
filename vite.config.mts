@@ -9,6 +9,14 @@ export default defineConfig({
 		assetsDir: 'assets',
 		copyPublicDir: true,
 		target: 'esnext',
+		rollupOptions: {
+			external: ['pixi.js'],
+			output: {
+				globals: {
+					'pixi.js': 'PIXI'
+				}
+			}
+		}
 	},
 	publicDir: 'assets',
 	plugins: [],

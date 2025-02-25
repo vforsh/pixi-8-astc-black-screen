@@ -1,11 +1,15 @@
 import { ResizeSensor } from 'css-element-queries'
-import { Application, Assets, GL_INTERNAL_FORMAT, loadKTX, Sprite, Text, Texture, WebGLRenderer } from 'pixi.js'
+import type * as Pixi from 'pixi.js'
+
+declare const PIXI: typeof Pixi
+
+const { Application, Assets, GL_INTERNAL_FORMAT, loadKTX, Sprite, Text, Texture, WebGLRenderer } = PIXI
 
 class Game {
 	private readonly BG_COLOR = 0x1e1e1e
 	private readonly WIDTH = 800
 	private readonly HEIGHT = 600
-	private app: Application
+	private app!: Application
 	private background: Sprite | undefined
 	private sprite: Sprite | undefined
 	private text: Text | undefined
